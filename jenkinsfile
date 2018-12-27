@@ -36,14 +36,8 @@ git 'https://github.com/kliakos/sparkjava-war-example.git'
 }
  stage('s3-copy'){
  steps{
- s3Upload profileName: 'gayathri-jenkins-poc', entries: [
-                [
-                        bucket          : 'gayathri-jenkins-poc', 
-                        selectedRegion  : 'ap-south-1', 
-                        sourceFile      : 'sparkjava-hello-world-1.0.war',
-                        managedArtifacts: true,
-                ]
-        ]
+ def identity=awsIdentity()
+ s3Upload(bucket:"gayathri-jenkins-poc", workingDir:'/target', includePathPattern:'**/*')
  }}
 
 	}
