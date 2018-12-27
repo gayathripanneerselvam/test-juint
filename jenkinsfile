@@ -33,10 +33,11 @@ git 'https://github.com/kliakos/sparkjava-war-example.git'
 )
 }
 }
+}
  stage('s3-copy'){
  steps{
  s3Upload(file:'sparkjava-hello-world-1.0.war', bucket:'gayathri-jenkins-poc', path:'target/sparkjava-hello-world-1.0.war')
  }}
-}
+
 	}
 	}
