@@ -22,11 +22,6 @@ git 'https://github.com/kliakos/sparkjava-war-example.git'
   steps {
     sh 'mvn package'
   }
-   post {
-success {
-junit '**/target/surefire-reports/*.xml' 
-}
-}
   }
   stage ('Deploy'){
   steps {
@@ -34,7 +29,16 @@ sshagent(['2e343adf-e8d9-4bf0-a372-90aff675fa40']) {
     sh "scp -o StrictHostKeyChecking=no target/*.war admin@13.232.175.7:/opt/tomcat/webapps"
 }
 	}
-	
+	post {
+	success {
+	emailext (
+    subject: "Job '${env.JOB_NAME} ${env.BUILD_NUMBER}'",
+    body: """<p>Check console output at <a href="${env.BUILD_URL}">${env.JOB_NAME}</a></p>""",
+    to: "gayathri.p@royalcyber.com",
+    from: "gayathri.p@royalcyber.com"
+)
+}
+}
  
 }
 	}
